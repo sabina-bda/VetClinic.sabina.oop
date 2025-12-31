@@ -1,25 +1,93 @@
 package week1.Service;
 
-import week1.Service.Pet;
-import week1.Service.Owner;
-import week1.Service.Vet;
-import week1.Service.VetService;
-import week1.Service.PetAppointment;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-public class Main {
-    public static void main(String[] args) {
-        Owner owner = new Owner(1, "Sabina", "+77072008133");
-        Pet pet = new Pet(1, "Tisha", 1, "Cat", true);
-        Vet vet = new Vet(1, "Dr. Alex", "Small Animals", 12);
-        VetService checkup = new VetService("Check-Up", 2000);
-        VetService vaccination = new VetService("Vaccination", 5000);
+public class Main{
+    private static ArrayList<VetService> services = new ArrayList<>();
+    private static Scanner sc = new Scanner(System.in);
 
-        PetAppointment appointment1 = new PetAppointment(1, pet, owner, vet, checkup, "2025-12-25");
-        PetAppointment appointment2 = new PetAppointment(2, pet, owner, vet, vaccination, "2025-12-30");
+    public static void main(String[] args){
+        int choice;
+        do{
+            System.out.println("VET CLINIC SERVICE MANAGEMENT");
+            System.out.println("1. Add General Service");
+            System.out.println("2. Add Vaccination");
+            System.out.println("3. Add Surgery");
+            System.out.println("4. View all services");
+            System.out.println("5. Perform all services");
+            System.out.println("6. View High-Risk surgeries only");
+            System.out.println("0. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine();
 
-        System.out.println(appointment1.getAppointmentSummary());
-        System.out.println(appointment2.getAppointmentSummary());
-        System.out.println(appointment1);
-        System.out.println(appointment2);
+            switch(choice){
+                case 1: addGeneralService(); break;
+                case 2: addVaccinationService();  break;
+                case 3: addSurgeryService();  break;
+                case 4: viewAllServices();  break;
+                case 5: performAllServices();  break;
+                case 6: viewHighRiskServices();   break;
+                case 0: System.out.println("Exciting");  break;
+                default: System.out.println("Invalid choice"); break;
+            }
+        } while(choice != 0);
     }
+
+    private static void addGeneralService(){
+        System.out.print("Name: "); String name = sc.nextLine();
+        System.out.print("Price: "); double price = sc.nextDouble();
+        System.out.print("Duration: "); int duration = sc.nextInt();
+        services.add(new VetService(name, price, duration, "General"));
+    }
+
+    private static void addVaccinationService(){
+        System.out.print("Name: "); String name = sc.nextLine();
+        System.out.print("Price: "); double price = sc.nextDouble();
+        System.out.print("Duration: "); int duration = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Vaccination Type: "); String type = sc.nextLine();
+        services.add(new VetService(name, price, duration, type));
+    }
+
+    private static void addSurgeryService(){
+        System.out.print("Name: "); String name = sc.nextLine();
+        System.out.print("Price: "); double price = sc.nextDouble();
+        System.out.print("Duration: "); int duration = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Complexity (Low/High): "); String complexity = sc.nextLine();
+        services.add(new VetService(name, price, duration, complexity));
+    }
+
+    private static void viewAllServices(){
+        System.out.println("LIST OF SERVICES");
+        for (VetService s: services){
+            System.out.println(s);
+            if(s instanceof Surgery surg && surg.isHighRisk()){
+                System.out.println("ATTENTION: High risk procedure!");
+            }
+        }
+    }
+
+    private static void performAllServices(){
+        System.out.println("LIST OF SERVICES");
+        for (VetService s: services){
+            s.performService();
+        }
+    }
+
+    private static void viewHighRiskServices(){
+        System.out.println("CRITICAL SURGERY");
+        for (VetService s: services){
+            if(s instanceof Surgery){
+                Surgery surg = (Surgery)s;
+                if(surg.isHighRisk()){
+                    System.out.println(surg.getServiceName()+" (Requires special monitoring");
+                }
+            }
+        }
+    }
+
+
 }

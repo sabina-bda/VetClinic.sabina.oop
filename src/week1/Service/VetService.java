@@ -1,25 +1,32 @@
 package week1.Service;
 
 public class VetService {
-    private String name;
-    private double price;
+    protected String serviceName;
+    protected double basePrice;
+    protected int durationMinutes;
+    protected String category;
 
-    public VetService(String name, double price) {
-        this.name = name;
-        this.price = price;
+    public VetService(String serviceName, double basePrice, int durationMinutes, String category) {
+        this.serviceName = serviceName;
+        this.basePrice = basePrice;
+        this.durationMinutes = durationMinutes;
+        this.category = category;
     }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void performService() {
+        System.out.println("Performing Vet Service: "+ serviceName);
+    }
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+    public double calculatePrice() {
+        return basePrice;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
 
     @Override
     public String toString() {
-        return "VetService{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                '}';
+        return "["+category+"]"+serviceName+" | Price: "+calculatePrice()+"tg : Duration: "+durationMinutes+" minutes";
     }
 }
