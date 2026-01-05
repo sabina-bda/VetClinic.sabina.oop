@@ -1,93 +1,88 @@
 package week1.Service;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main{
-    private static ArrayList<VetService> services = new ArrayList<>();
-    private static Scanner sc = new Scanner(System.in);
+public class Main {
 
-    public static void main(String[] args){
-        int choice;
-        do{
-            System.out.println("VET CLINIC SERVICE MANAGEMENT");
-            System.out.println("1. Add General Service");
-            System.out.println("2. Add Vaccination");
-            System.out.println("3. Add Surgery");
-            System.out.println("4. View all services");
-            System.out.println("5. Perform all services");
-            System.out.println("6. View High-Risk surgeries only");
+    private static ArrayList<Pet> pets = new ArrayList<>();
+    private static ArrayList<Owner> owners = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+
+        pets.add(new Dog(1, "Rex", 5, "German Shepherd"));
+        pets.add(new Cat(2, "Whiskers", 3));
+        owners.add(new Owner("Sabina", "87071234567"));
+
+        boolean running = true;
+        while (running) {
+            System.out.println("\n--- VET CLINIC MENU ---");
+            System.out.println("1. Add Dog");
+            System.out.println("2. Add Cat");
+            System.out.println("3. View All Pets (Polymorphism)");
+            System.out.println("4. View Only Dogs (instanceof)");
+            System.out.println("5. Add Owner");
+            System.out.println("6. View All Owners");
             System.out.println("0. Exit");
-            System.out.print("Enter your choice: ");
-            choice = sc.nextInt();
-            sc.nextLine();
+            System.out.print("Select an option: ");
 
-            switch(choice){
-                case 1: addGeneralService(); break;
-                case 2: addVaccinationService();  break;
-                case 3: addSurgeryService();  break;
-                case 4: viewAllServices();  break;
-                case 5: performAllServices();  break;
-                case 6: viewHighRiskServices();   break;
-                case 0: System.out.println("Exciting");  break;
-                default: System.out.println("Invalid choice"); break;
-            }
-        } while(choice != 0);
-    }
+            int choice = scanner.nextInt();
+            scanner.nextLine();
 
-    private static void addGeneralService(){
-        System.out.print("Name: "); String name = sc.nextLine();
-        System.out.print("Price: "); double price = sc.nextDouble();
-        System.out.print("Duration: "); int duration = sc.nextInt();
-        services.add(new VetService(name, price, duration, "General"));
-    }
-
-    private static void addVaccinationService(){
-        System.out.print("Name: "); String name = sc.nextLine();
-        System.out.print("Price: "); double price = sc.nextDouble();
-        System.out.print("Duration: "); int duration = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Vaccination Type: "); String type = sc.nextLine();
-        services.add(new VetService(name, price, duration, type));
-    }
-
-    private static void addSurgeryService(){
-        System.out.print("Name: "); String name = sc.nextLine();
-        System.out.print("Price: "); double price = sc.nextDouble();
-        System.out.print("Duration: "); int duration = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Complexity (Low/High): "); String complexity = sc.nextLine();
-        services.add(new VetService(name, price, duration, complexity));
-    }
-
-    private static void viewAllServices(){
-        System.out.println("LIST OF SERVICES");
-        for (VetService s: services){
-            System.out.println(s);
-            if(s instanceof Surgery surg && surg.isHighRisk()){
-                System.out.println("ATTENTION: High risk procedure!");
+            switch (choice) {
+                case 1: addDog(); break;
+                case 2: addCat(); break;
+                case 3: viewPets(); break;
+                case 4: showOnlyDogs(); break;
+                case 5: addOwner(); break;
+                case 6: viewOwners(); break;
+                case 0: running = false; break;
+                default: System.out.println("Invalid option!");
             }
         }
     }
 
-    private static void performAllServices(){
-        System.out.println("LIST OF SERVICES");
-        for (VetService s: services){
-            s.performService();
+    private static void addDog() {
+        System.out.print("ID: "); int id = scanner.nextInt(); scanner.nextLine();
+        System.out.print("Name: "); String name = scanner.nextLine();
+        System.out.print("Age: "); int age = scanner.nextInt(); scanner.nextLine();
+        System.out.print("Breed: "); String breed = scanner.nextLine();
+        pets.add(new Dog(id, name, age, breed));
+        System.out.println("Dog added! ✅");
+    }
+
+    private static void addCat() {
+        System.out.print("ID: "); int id = scanner.nextInt(); scanner.nextLine();
+        System.out.print("Name: "); String name = scanner.nextLine();
+        System.out.print("Age: "); int age = scanner.nextInt(); scanner.nextLine();
+        pets.add(new Cat(id, name, age));
+        System.out.println("Cat added! ✅");
+    }
+
+    private static void viewPets() {
+        System.out.println("\n--- All Pets in Clinic ---");
+        for (Pet p : pets) {
+            System.out.println(p);
+            p.makeSound();
         }
     }
 
-    private static void viewHighRiskServices(){
-        System.out.println("CRITICAL SURGERY");
-        for (VetService s: services){
-            if(s instanceof Surgery){
-                Surgery surg = (Surgery)s;
-                if(surg.isHighRisk()){
-                    System.out.println(surg.getServiceName()+" (Requires special monitoring");
-                }
+    private static void showOnlyDogs() {
+        System.out.println("\n--- Dogs Only ---");
+        for (Pet p : pets) {
+            if (p instanceof Dog) {
+                System.out.println(p);
             }
         }
     }
 
+    private static void addOwner() {
+        System.out.print("Name: "); String name = scanner.nextLine();
+        System.out.print("Phone: "); String phone = scanner.nextLine();
+        owners.add(new Owner(name, phone));
+    }
 
+    private static void viewOwners() {
+        for (Owner o : owners) System.out.println(o);
+    }
 }
