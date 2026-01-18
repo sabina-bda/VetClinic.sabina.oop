@@ -1,6 +1,6 @@
-package week1.Service;
+package model;
 
-public class Cat extends Pet {
+public class Cat extends Pet implements Adoptable{
     public Cat(int id, String name, int age) {
         super(id, name, age);
     }
@@ -13,5 +13,10 @@ public class Cat extends Pet {
     @Override
     public String toString() {
         return super.toString() + " | Type: Cat";
+    }
+
+    @Override
+    public void adopt(){
+        System.out.println(name + " has been adopted!!");
     }
 }
