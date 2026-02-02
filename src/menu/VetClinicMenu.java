@@ -147,8 +147,6 @@ public class VetClinicMenu implements Menu {
         String name = scanner.nextLine().trim();
         if (!name.isEmpty()) pet.setName(name);
 
-        // можно добавить другие поля аналогично
-
         if (dao.updatePet(pet)) {
             System.out.println("Updated successfully.");
         } else {

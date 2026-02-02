@@ -23,7 +23,6 @@ public abstract class Pet {
         this.ownerId = ownerId;
     }
 
-    // Геттеры и сеттеры (обязательно все!)
     public int getPetId() {
         return petId;
     }
