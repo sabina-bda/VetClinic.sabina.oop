@@ -65,6 +65,7 @@ public class VetClinicDAO {
 
     public List<Pet> getAllPets() {
         List<Pet> pets = new ArrayList<>();
+
         String sql = "SELECT * FROM pets ORDER BY name";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -77,11 +78,13 @@ public class VetClinicDAO {
         } catch (SQLException e) {
             System.err.println("getAllPets failed: " + e.getMessage());
         }
-        return pets;
+
+        return pets;   // возвращаем свежий список из БД
     }
 
     public List<Owner> getAllOwners() {
         List<Owner> owners = new ArrayList<>();
+
         String sql = "SELECT * FROM owners ORDER BY full_name";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -89,17 +92,18 @@ public class VetClinicDAO {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                Owner o = new Owner();
-                o.setOwnerId(rs.getInt("owner_id"));
-                o.setFullName(rs.getString("full_name"));
-                o.setPhone(rs.getString("phone"));
-                o.setAddress(rs.getString("address"));
-                o.setEmail(rs.getString("email"));
-                owners.add(o);
+                Owner owner = new Owner();
+                owner.setOwnerId(rs.getInt("owner_id"));
+                owner.setFullName(rs.getString("full_name"));
+                owner.setPhone(rs.getString("phone"));
+                owner.setAddress(rs.getString("address"));
+                owner.setEmail(rs.getString("email"));
+                owners.add(owner);
             }
         } catch (SQLException e) {
-            System.err.println("getAllOwners failed");
+            System.err.println("getAllOwners failed: " + e.getMessage());
         }
+
         return owners;
     }
 
