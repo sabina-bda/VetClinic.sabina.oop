@@ -1,11 +1,10 @@
 package week1.Service;
 
-import menu.Menu;
 import menu.VetClinicMenu;
 
 public class Main {
     public static void main(String[] args) {
-        Menu menu = new VetClinicMenu();
+        VetClinicMenu menu = new VetClinicMenu();
         menu.run();
     }
 }

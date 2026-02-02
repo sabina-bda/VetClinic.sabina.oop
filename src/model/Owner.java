@@ -10,18 +10,19 @@ public class Owner {
     }
 
     public void setFullName(String fullName) {
-        if (fullName == null || fullName.trim().isEmpty()) {
+        if (fullName == null || fullName.trim().isEmpty())
             throw new IllegalArgumentException("fullName cannot be null or empty");
-        }
         this.fullName = fullName;
     }
 
     public void setPhone(String phone) {
-        if (phone == null || phone.trim().isEmpty()) {
+        if (phone == null || phone.trim().isEmpty())
             throw new IllegalArgumentException("phone cannot be null or empty");
-        }
         this.phone = phone;
     }
+
+    public String getFullName() { return fullName; }
+    public String getPhone() { return phone; }
 
     @Override
     public String toString() {

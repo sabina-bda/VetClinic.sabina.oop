@@ -1,89 +1,55 @@
 package menu;
 
-import model.*;
-import exception.InvalidInputException;
-import java.util.ArrayList;
+import database.VetClinicDAO;
+import model.Cat;
+import model.Dog;
 import java.util.Scanner;
 
-public class VetClinicMenu implements Menu{
-    private ArrayList<Pet> pets=new ArrayList<>();
-    private ArrayList<Owner> owners=new ArrayList<>();
-    private Scanner sc=new Scanner(System.in);
+public class VetClinicMenu {
+    private final VetClinicDAO dao = new VetClinicDAO();
+    private final Scanner sc = new Scanner(System.in);
 
-    public VetClinicMenu() {
-        pets.add(new Dog(1, "Rex", 5, "German Shepheds"));
-        pets.add(new Cat(2,"Tisha", 2));
-        owners.add(new Owner("Sabina","877777777777"));
-    }
+    public void run() {
+        while (true) {
+            System.out.println("\n===== VET CLINIC MENU =====");
+            System.out.println("1. Add Dog");
+            System.out.println("2. Add Cat");
+            System.out.println("3. View All Pets");
+            System.out.println("4. Update Pet Information");
+            System.out.println("5. Delete Pet from Registry");
+            System.out.println("0. Exit");
+            System.out.println("===========================");
+            System.out.print("Select an option: ");
+            int choice = sc.nextInt();
 
-    @Override
-    public void displayMenu() {
-        System.out.println("--- VET CLINIC ---");
-        System.out.println("1. Add Dog");
-        System.out.println("2. Add Cat");
-        System.out.println("3. View Pets");
-        System.out.println("0. Exit");
-    }
+            if (choice == 0) break;
 
-    @Override
-    public void run(){
-        boolean running=true;
-        while(running){
-            displayMenu();
-            try{
-                int choice=Integer.parseInt(sc.nextLine());
-                switch(choice){
-                    case 1: addDog(); break;
-                    case 2: addCat(); break;
-                    case 3: viewPets(); break;
-                    case 0: running=false; break;
-                    default: throw new InvalidInputException("Invalid menu option");
+            switch (choice) {
+                case 1 -> {
+                    System.out.print("ID: "); int id = sc.nextInt();
+                    System.out.print("Name: "); String name = sc.next();
+                    System.out.print("Age: "); int age = sc.nextInt();
+                    System.out.print("Breed: "); String breed = sc.next();
+                    dao.addDog(new Dog(id, name, age, breed));
                 }
-            } catch (NumberFormatException e){
-                System.out.println("Please enter a number");
-            } catch (IllegalArgumentException e){
-                System.out.println("Error: "+e.getMessage());
-            }catch (InvalidInputException e){
-                System.out.println("Error: "+e.getMessage());
+                case 2 -> {
+                    System.out.print("ID: "); int id = sc.nextInt();
+                    System.out.print("Name: "); String name = sc.next();
+                    System.out.print("Age: "); int age = sc.nextInt();
+                    dao.addCat(new Cat(id, name, age));
+                }
+                case 3 -> dao.viewAllPets();
+                case 4 -> {
+                    System.out.print("ID to update: "); int id = sc.nextInt();
+                    System.out.print("New Name: "); String name = sc.next();
+                    System.out.print("New Age: "); int age = sc.nextInt();
+                    dao.updatePet(id, name, age);
+                }
+                case 5 -> {
+                    System.out.print("ID to delete: "); int id = sc.nextInt();
+                    dao.deletePet(id);
+                }
             }
-        }
-    }
-
-    private void addDog(){
-        System.out.print("ID: ");
-        int id=Integer.parseInt(sc.nextLine());
-
-        System.out.print("Name: ");
-        String name=sc.nextLine();
-
-        System.out.print("Age: ");
-        int age=Integer.parseInt(sc.nextLine());
-
-        System.out.print("Breed: ");
-        String breed=sc.nextLine();
-
-        pets.add(new Dog(id,name,age,breed));
-        System.out.println("Dog added!");
-    }
-
-    private void addCat(){
-        System.out.print("ID: ");
-        int id=Integer.parseInt(sc.nextLine());
-
-        System.out.print("Name: ");
-        String name=sc.nextLine();
-
-        System.out.print("Age: ");
-        int age=Integer.parseInt(sc.nextLine());
-
-        pets.add(new Cat(id, name, age));
-        System.out.println("Cat added!");
-    }
-
-    private void viewPets(){
-        for(Pet p:pets){
-            System.out.println(p);
-            p.makeSound();
         }
     }
 }
