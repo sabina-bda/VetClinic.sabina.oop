@@ -79,7 +79,7 @@ public class VetClinicDAO {
             System.err.println("getAllPets failed: " + e.getMessage());
         }
 
-        return pets;   // возвращаем свежий список из БД
+        return pets;
     }
 
     public List<Owner> getAllOwners() {
@@ -221,5 +221,27 @@ public class VetClinicDAO {
             System.err.println("searchPetsByAge failed");
         }
         return result;
+    }
+
+    public List<Pet> getPetsByOwnerId(int ownerId) {
+        List<Pet> pets = new ArrayList<>();
+
+        String sql = "SELECT * FROM pets WHERE owner_id = ? ORDER BY name";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, ownerId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    pets.add(mapPet(rs));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("getPetsByOwnerId failed: " + e.getMessage());
+        }
+
+        return pets;
     }
 }

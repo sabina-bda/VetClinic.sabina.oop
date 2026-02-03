@@ -11,22 +11,28 @@
   </component>
   <component name="DBNavigator.Project.DatabaseAssistantManager">
     <assistants>
-      <assistant-state connection-id="808a0a17-3d8f-45a3-bae5-fcaded680a80" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
-        <tools />
-      </assistant-state>
       <assistant-state connection-id="808a0a17-3d8f-45a3-bae5-fcaded680a80" assistant-type="SELECT_AI" default-profile-name="" selected-chat-id="" availability="UNAVAILABLE" acknowledgement="NONE">
         <tools />
       </assistant-state>
-      <assistant-state connection-id="e83d34c9-7905-49e9-b51e-e97bcb1c6bf2" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
+      <assistant-state connection-id="808a0a17-3d8f-45a3-bae5-fcaded680a80" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="2977C832415F4DD48CA74D52D44BEA06" availability="AVAILABLE" acknowledgement="ENGAGED" selected="true">
+        <chats>
+          <chat id="2977C832415F4DD48CA74D52D44BEA06" title="" session-signature="" timestamp="1770157440147">
+            <messages />
+            <context provider="" profile="" model="" action="" interactive="true" />
+          </chat>
+        </chats>
         <tools />
       </assistant-state>
       <assistant-state connection-id="e83d34c9-7905-49e9-b51e-e97bcb1c6bf2" assistant-type="SELECT_AI" default-profile-name="" selected-chat-id="" availability="UNAVAILABLE" acknowledgement="NONE">
         <tools />
       </assistant-state>
-      <assistant-state connection-id="b5eae890-c7d8-4148-b9be-d34d7ec2b4eb" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
+      <assistant-state connection-id="e83d34c9-7905-49e9-b51e-e97bcb1c6bf2" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
         <tools />
       </assistant-state>
       <assistant-state connection-id="b5eae890-c7d8-4148-b9be-d34d7ec2b4eb" assistant-type="SELECT_AI" default-profile-name="" selected-chat-id="" availability="UNAVAILABLE" acknowledgement="NONE">
+        <tools />
+      </assistant-state>
+      <assistant-state connection-id="b5eae890-c7d8-4148-b9be-d34d7ec2b4eb" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
         <tools />
       </assistant-state>
     </assistants>
@@ -78,8 +84,8 @@ GRANT ALL PRIVILEGES ON TABLE public.pets TO postgres;]]></console>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
-      <object connection-id="808a0a17-3d8f-45a3-bae5-fcaded680a80" object-ref="consoles/VetClinic_OOP1" />
       <object connection-id="b5eae890-c7d8-4148-b9be-d34d7ec2b4eb" object-ref="consoles/VetClinic" />
+      <object connection-id="808a0a17-3d8f-45a3-bae5-fcaded680a80" object-ref="consoles/VetClinic_OOP1" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabasePrerequisiteManager">

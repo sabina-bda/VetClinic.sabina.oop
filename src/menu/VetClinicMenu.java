@@ -31,6 +31,8 @@ public class VetClinicMenu implements Menu {
                 case 6 -> searchByAgeRange();
                 case 7 -> addOwner();
                 case 8 -> viewAllOwners();
+                case 9 -> viewPetById();
+                case 10 -> searchPetsByOwnerId();
                 case 0 -> {
                     System.out.println("\nGoodbye!");
                     return;
@@ -53,6 +55,8 @@ public class VetClinicMenu implements Menu {
         System.out.println(" 6   →   Search by age range");
         System.out.println(" 7   →   Add a new owner");
         System.out.println(" 8   →   View all owners");
+        System.out.println(" 9   →   View pet by ID");
+        System.out.println("10   →   Search pets by owner ID");
         System.out.println(" 0   →   Exit");
         System.out.println("═══════════════════════════════════════════════");
         System.out.print("Enter your choice → ");
@@ -260,5 +264,38 @@ public class VetClinicMenu implements Menu {
         }
         System.out.println("─────────────────────────────────────────────────");
         System.out.println("Use any of these IDs when adding a pet.");
+    }
+
+    private void viewPetById() {
+        System.out.print("Enter pet ID to view → ");
+        int id = getUserChoice();
+
+        Pet pet = dao.getPetById(id);
+
+        if (pet == null) {
+            System.out.println("Pet with ID " + id + " not found.");
+        } else {
+            System.out.println("\nPet details:");
+            System.out.println(pet);
+            System.out.println("Owner ID: " + pet.getOwnerId());
+        }
+    }
+
+    private void searchPetsByOwnerId() {
+        System.out.print("\nEnter owner ID to search pets → ");
+        int ownerId = getUserChoice();
+
+        List<Pet> pets = dao.getPetsByOwnerId(ownerId);
+
+        if (pets.isEmpty()) {
+            System.out.println("No pets found for owner ID " + ownerId);
+        } else {
+            System.out.println("\nPets for owner ID " + ownerId + ":");
+            System.out.println("───────────────────────────────────────────────");
+            for (Pet p : pets) {
+                System.out.println(p);
+            }
+            System.out.println("───────────────────────────────────────────────");
+        }
     }
 }
