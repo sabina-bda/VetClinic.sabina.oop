@@ -65,7 +65,6 @@ public class VetClinicDAO {
 
     public List<Pet> getAllPets() {
         List<Pet> pets = new ArrayList<>();
-
         String sql = "SELECT * FROM pets ORDER BY name";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -78,13 +77,11 @@ public class VetClinicDAO {
         } catch (SQLException e) {
             System.err.println("getAllPets failed: " + e.getMessage());
         }
-
         return pets;
     }
 
     public List<Owner> getAllOwners() {
         List<Owner> owners = new ArrayList<>();
-
         String sql = "SELECT * FROM owners ORDER BY full_name";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -92,23 +89,17 @@ public class VetClinicDAO {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                Owner owner = new Owner();
-                owner.setOwnerId(rs.getInt("owner_id"));
-                owner.setFullName(rs.getString("full_name"));
-                owner.setPhone(rs.getString("phone"));
-                owner.setAddress(rs.getString("address"));
-                owner.setEmail(rs.getString("email"));
-                owners.add(owner);
+                owners.add(mapOwner(rs));
             }
         } catch (SQLException e) {
             System.err.println("getAllOwners failed: " + e.getMessage());
         }
-
         return owners;
     }
 
     public Pet getPetById(int id) {
         String sql = "SELECT * FROM pets WHERE pet_id = ?";
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -119,20 +110,14 @@ public class VetClinicDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("getPetById failed");
+            System.err.println("getPetById failed: " + e.getMessage());
         }
         return null;
     }
 
     private Pet mapPet(ResultSet rs) throws SQLException {
         String type = rs.getString("type");
-        Pet pet;
-
-        if ("CAT".equalsIgnoreCase(type)) {
-            pet = new Cat();
-        } else {
-            pet = new Dog();
-        }
+        Pet pet = "CAT".equalsIgnoreCase(type) ? new Cat() : new Dog();
 
         pet.setPetId(rs.getInt("pet_id"));
         pet.setName(rs.getString("name"));
@@ -146,11 +131,20 @@ public class VetClinicDAO {
         return pet;
     }
 
+    private Owner mapOwner(ResultSet rs) throws SQLException {
+        Owner owner = new Owner();
+        owner.setOwnerId(rs.getInt("owner_id"));
+        owner.setFullName(rs.getString("full_name"));
+        owner.setPhone(rs.getString("phone"));
+        owner.setAddress(rs.getString("address"));
+        owner.setEmail(rs.getString("email"));
+        return owner;
+    }
 
     public boolean updatePet(Pet pet) {
         String sql = "UPDATE pets SET name = ?, breed = ?, age = ?, gender = ?, " +
-                "color = ?, is_vaccinated = ?, owner_id = ? " +
-                "WHERE pet_id = ?";
+                "color = ?, is_vaccinated = ?, owner_id = ?" +
+        "WHERE pet_id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -173,13 +167,14 @@ public class VetClinicDAO {
 
     public boolean deletePet(int petId) {
         String sql = "DELETE FROM pets WHERE pet_id = ?";
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, petId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("deletePet failed");
+            System.err.println("deletePet failed: " + e.getMessage());
             return false;
         }
     }
@@ -198,7 +193,7 @@ public class VetClinicDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("searchPetsByName failed");
+            System.err.println("searchPetsByName failed: " + e.getMessage());
         }
         return result;
     }
@@ -218,21 +213,19 @@ public class VetClinicDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("searchPetsByAge failed");
+            System.err.println("searchPetsByAge failed: " + e.getMessage());
         }
         return result;
     }
 
     public List<Pet> getPetsByOwnerId(int ownerId) {
         List<Pet> pets = new ArrayList<>();
-
         String sql = "SELECT * FROM pets WHERE owner_id = ? ORDER BY name";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, ownerId);
-
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     pets.add(mapPet(rs));
@@ -241,7 +234,6 @@ public class VetClinicDAO {
         } catch (SQLException e) {
             System.err.println("getPetsByOwnerId failed: " + e.getMessage());
         }
-
         return pets;
     }
 }

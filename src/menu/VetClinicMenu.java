@@ -3,8 +3,8 @@ package menu;
 import database.VetClinicDAO;
 import model.Cat;
 import model.Dog;
-import model.Pet;
 import model.Owner;
+import model.Pet;
 
 import java.util.List;
 import java.util.Scanner;
@@ -149,7 +149,9 @@ public class VetClinicMenu implements Menu {
 
         System.out.print("New name (Enter to keep): ");
         String name = scanner.nextLine().trim();
-        if (!name.isEmpty()) pet.setName(name);
+        if (!name.isEmpty()) {
+            pet.setName(name);
+        }
 
         if (dao.updatePet(pet)) {
             System.out.println("Updated successfully.");
@@ -188,7 +190,6 @@ public class VetClinicMenu implements Menu {
         String fragment = scanner.nextLine().trim();
 
         List<Pet> found = dao.searchPetsByName(fragment);
-
         if (found.isEmpty()) {
             System.out.println("No matches found.");
         } else {
@@ -207,7 +208,6 @@ public class VetClinicMenu implements Menu {
         int max = getUserChoice();
 
         List<Pet> found = dao.searchPetsByAge(min, max);
-
         if (found.isEmpty()) {
             System.out.println("No pets in this age range.");
         } else {
@@ -250,7 +250,6 @@ public class VetClinicMenu implements Menu {
 
     private void viewAllOwners() {
         List<Owner> owners = dao.getAllOwners();
-
         if (owners.isEmpty()) {
             System.out.println("No owners registered yet.");
             return;
@@ -271,7 +270,6 @@ public class VetClinicMenu implements Menu {
         int id = getUserChoice();
 
         Pet pet = dao.getPetById(id);
-
         if (pet == null) {
             System.out.println("Pet with ID " + id + " not found.");
         } else {
@@ -286,7 +284,6 @@ public class VetClinicMenu implements Menu {
         int ownerId = getUserChoice();
 
         List<Pet> pets = dao.getPetsByOwnerId(ownerId);
-
         if (pets.isEmpty()) {
             System.out.println("No pets found for owner ID " + ownerId);
         } else {
